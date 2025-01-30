@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    <title>Farm Educational Game</title>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://pplx-res.cloudinary.com/image/upload/v1737598485/user_uploads/jvunjmGzUjGbHTn/sunset-cartoon-background-with-landscape-area-trees-sun-burst-clouds-sky-free-vector.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Comic Neue', sans-serif;
+            font-weight: 700;
+            overflow: hidden;
+        }
+        #container {
+            width: 960px;
+            height: 540px;
+            background-image: url('https://pplx-res.cloudinary.com/image/upload/v1737598112/user_uploads/TEvPViVquDRlmvj/green-farm-animation-2d-cartoon-600nw-2439388695-copy.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 4px solid #8B4513;
+            box-shadow: 0 0 10px #8B4513, 0 0 20px #8B4513;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        #typing-text {
+            color: #8B4513;
+            font-size: 32px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+        }
+
+.main-back-button {
+    position: absolute;
+    bottom: 65px;
+    left: 170px;
+    width: 110px;
+    height: auto;
+    z-index: 3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.main-next-button {
+    position: absolute;
+    bottom: 65px;
+    right: 170px;
+    width: 110px;
+    height: auto;
+    z-index: 3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.main-back-text {
+    position: absolute;
+    bottom: 111px;
+    left: 200px;
+    width: 50px;
+    text-align: center;
+    color: #202020;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.main-next-text {
+    position: absolute;
+    bottom: 111px;
+    right: 200px;
+    width: 50px;
+    text-align: center;
+    color: #202020;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.main-back-button:hover, .main-next-button:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+}
+
+.wooden-plank {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: auto;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.quiz-container {
+    position: absolute;
+    top: 45%;
+    left: 48%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    text-align: center;
+    z-index: 2;  /* Make sure quiz is above wooden plank */
+}
+
+.quiz-question {
+    font-size: 20px;
+    font-weight: bold;
+    color: #202020;
+    margin-bottom: 40px;
+    margin-left: 40px;
+    font-family: 'Bubblegum Sans', cursive;
+    font-weight: 900;
+    -webkit-text-stroke: 1px #ffffff;
+    text-stroke: 1px #ffffff;
+    -webkit-text-fill-color: #8B4513;
+    text-shadow: 
+        2px 2px 0 #ffffff,
+        -1px -1px 0 #ffffff,
+        1px -1px 0 #ffffff,
+        -1px 1px 0 #ffffff,
+        1px 1px 0 #ffffff;
+    font-size: 36px;
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.option-button {
+    background: url('small button.png') no-repeat center;
+    background-size: 100% 100%;
+    border: none;
+    width: 250px;
+    height: 70px;
+    color: #202020;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    z-index: 2;
+    font-family: 'Comic Neue', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.option-button:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+}
+
+.option-button.selected {
+    filter: brightness(1.2);
+}
+
+
+
+.submit-plank {
+    position: absolute;
+    bottom: 65px;
+    left: 56.5%;
+    transform: translateX(-50%);
+    width: 105px;
+    height: auto;
+    z-index: 3;
+    cursor: pointer;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.submit-text {
+    position: absolute;
+    bottom: 110px;
+    left: 56.5%;
+    transform: translateX(-50%);
+    width: 65px;
+    text-align: center;
+    color: #202020;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 4;
+    pointer-events: none;
+    display: none;
+}
+
+.submit-plank:hover {
+    transform: translateX(-50%) scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+}
+.back-plank {
+    position: absolute;
+    bottom: 65px;
+    right: 485px;  /* Position it to the right of submit button */
+    width: 105px;
+    height: auto;
+    z-index: 3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-text {
+    position: absolute;
+    bottom: 110px;
+    right: 505px;
+    width: 65px;
+    text-align: center;
+    color: #202020;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.back-plank:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+}
+.start-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+}
+
+.start-plank {
+    width: 200px;
+    height: auto;
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+}
+
+.start-text {
+    position: absolute;
+    top: 42% !important;
+    left: 1% !important;
+    transform: translate(-50%, -50%);
+    color: #202020;
+    font-weight: bold;
+    font-size: 24px !important;
+    pointer-events: none;
+    width: 200px !important;
+    text-align: center;
+    animation: pulse 1.5s infinite;  /* Add this line */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.option-button:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
+.start-plank:active {
+    transform: translate(-50%, -50%) scale(0.95);
+    transition: transform 0.1s;
+}
+
+.submit-plank:active {
+    transform: translateX(-50%) scale(0.95);
+    transition: transform 0.1s;
+}
+
+.back-plank:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
+.main-back-button:active, .main-next-button:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+.start-plank {
+    width: 200px;
+    height: auto;
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+}
+
+.start-plank:active {
+    transform: scale(0.95) !important;
+    transition: transform 0.1s;
+    animation: none;
+}
+
+.start-text {
+    position: absolute;
+    top: 44%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    color: #202020;
+    font-weight: bold;
+    font-size: 18px;
+    pointer-events: none;
+    width: 100px;
+    text-align: center;
+    animation: pulse 1.5s infinite;
+}
+
+.start-text:active {
+    animation: none;
+}
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-left: 35px;
+}
+
+.star {
+    width: 50px;
+    height: 50px;
+}
+.retry-plank {
+    position: absolute;
+    bottom: 85px;
+    left: 310px;
+    width: 150px;
+    height: auto;
+    z-index: 3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-text {
+    position: absolute;
+    bottom: 151px;
+    left: 352px;
+    width: 65px;
+    text-align: center;
+    color: #202020;
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.home-plank {
+    position: absolute;
+    bottom: 85px;
+    right: 310px;
+    width: 150px;
+    height: auto;
+    z-index: 3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.home-text {
+    position: absolute;
+    bottom: 141px;
+    right: 341px;
+    width: 85px;
+    text-align: center;
+    color: #202020;
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 4;
+    pointer-events: none;
+    line-height: 1.2;;
+}
+
+.retry-plank:hover, .home-plank:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+}
+
+.retry-plank:active, .home-plank:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+.retry-plank, .retry-text, .home-plank, .home-text {
+    display: none;
+}
+.score-display {
+    font-size: 24px;
+    font-weight: bold;
+    color: #202020;
+    margin-top: -50px;  /* Adjust this value to move message up/down */
+    margin-bottom: 30px;  /* Space between message and stars */
+    margin-left: 35px;
+    text-align: center;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 3;
+}
+
+.intro-character {
+    position: absolute;
+    bottom: 15px;
+    left: 660px;
+    width: 245px;
+    height: auto;
+    z-index: 4;
+}
+
+.intro-speech-bubble {
+    position: absolute;
+    bottom: 200px;
+    left: 625px;
+    width: 300px;
+    height: auto;
+    z-index: 4;
+    transform: rotate(15deg);
+}
+
+.intro-bubble-text {
+    position: absolute;
+    bottom: 360px;
+    left: 675px;
+    width: 200px;
+    text-align: center;
+    color: #202020;
+    font-weight: bold;
+    font-size: 20px;
+    z-index: 5;
+}
+
+.intro-plank {
+    position: absolute;
+    bottom: 265px;
+    left: 720px;
+    width: 115px;
+    height: auto;
+    z-index: 5;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.intro-plank:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+}
+
+.intro-plank-text {
+    position: absolute;
+    bottom: 313px;
+    left: 741px;
+    width: 75px;
+    text-align: center;
+    color: #202020;
+    font-weight: bold;
+    font-size: 17px;
+    z-index: 6;
+    pointer-events: none;
+}
+.intro-plank:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
+
+
+       
+    </style>
+</head>
+<body>
+    <div id="container">
+        <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+        <div class="overlay"></div>
+        <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+        <img src="cowgirl 2.0.png" alt="Farmer" class="intro-character">
+        <img src="speech bubble.png" alt="Speech Bubble" class="intro-speech-bubble">
+        <div class="intro-bubble-text">TIME TO TEST YOUR KNOWLEGDE!</div>
+        <img src="button answers.png" alt="Start Button" class="intro-plank" onclick="startQuiz()">
+        <div class="intro-plank-text">LET'S GO!</div>          
+        <img src="button answers.png" alt="Retry Button" class="retry-plank" onclick="startQuiz()">
+<div class="retry-text">RETRY</div>
+<img src="button answers.png" alt="Home Button" class="home-plank" onclick="window.location.href='farm-learning.html'">
+<div class="home-text">BACK&nbsp;TO<br>LEARNING</div>
+        <img src="Wood tab.png" alt="Wooden Plank" class="wooden-plank">
+        <div class="quiz-container"></div>
+        <img src="back arrow.png" alt="Back Button" class="main-back-button" onclick="previousQuestion()">
+        <div class="main-back-text">BACK</div>
+        <img src="next arrow.png" alt="Next Button" class="main-next-button" onclick="nextQuestion()">
+        <div class="main-next-text">NEXT</div>
+        <img src="button answers.png" alt="Submit Button" class="submit-plank" onclick="showScore()">
+        <div class="submit-text">SUBMIT</div>
+        <img src="button answers.png" alt="Back Button" class="back-plank" onclick="previousQuestion()">
+        <div class="back-text">BACK</div>
+        <div class="start-container">
+            <img src="button answers.png" alt="Start Button" class="start-plank" onclick="startQuiz()">
+            <div class="start-text">START QUIZ</div>
+            <audio id="clickSound" preload="auto">
+                <source src="pop.mp3" type="audio/mpeg">
+            </audio>
+            <audio id="swishSound" preload="auto">
+                <source src="swish.mp3" type="audio/mpeg">
+            </audio>
+            
+        </div>
+        
+
+    </div>
+    
+    
+    <script>
+       const questions = [
+    {
+        question: "What is Generative AI?",
+        options: [
+            "A type of robot",
+            "AI that creates new content",
+            "A computer game",
+            "A farming tool"
+        ],
+        correct: 1
+    },
+    {
+        question: "Which of these is an example of Generative AI?",
+        options: [
+            "A calculator",
+            "A thermometer",
+            "ChatGPT",
+            "A smartphone"
+        ],
+        correct: 2
+    },
+    {
+        question: "What can Generative AI create?",
+        options: [
+            "Only text",
+            "Only images",
+            "Only music",
+            "Text, images, and music"
+        ],
+        correct: 3
+    },
+    {
+        question: "How does Generative AI learn?",
+        options: [
+            "From large amounts of data",
+            "From watching TV",
+            "From playing games",
+            "It doesn't learn"
+        ],
+        correct: 0
+    },
+    {
+        question: "What do we need to use Generative AI responsibly?",
+        options: [
+            "Use it for everything",
+            "Never use it",
+            "Use it with human guidance",
+            "Use it without thinking"
+        ],
+        correct: 2
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let answers = new Array(questions.length).fill(-1);
+let quizStarted = false;
+let introVisible = true;
+
+function playClickSound() {
+    const audio = document.getElementById('clickSound');
+    audio.currentTime = 0;
+    audio.load();
+    audio.play().catch(function(error) {
+        console.log("Click sound failed:", error);
+    });
+}
+
+function playSwishSound() {
+    const audio = document.getElementById('swishSound');
+    audio.currentTime = 0;
+    audio.load();
+    audio.play().catch(function(error) {
+        console.log("Swish sound failed:", error);
+    });
+}
+
+function startQuiz() {
+    playClickSound();
+    if (introVisible) {
+        document.querySelector('.overlay').style.display = 'none';
+        document.querySelector('.intro-character').style.display = 'none';
+        document.querySelector('.intro-speech-bubble').style.display = 'none';
+        document.querySelector('.intro-bubble-text').style.display = 'none';
+        document.querySelector('.intro-plank').style.display = 'none';
+        document.querySelector('.intro-plank-text').style.display = 'none';
+        
+        document.querySelector('.start-container').style.display = 'block';
+        introVisible = false;
+    } else {
+        quizStarted = true;
+        document.querySelector('.start-container').style.display = 'none';
+        document.querySelector('.quiz-container').style.display = 'block';
+        document.querySelector('.main-next-button').style.display = 'block';
+        document.querySelector('.main-next-text').style.display = 'block';
+        displayQuestion();
+    }
+}
+
+function displayQuestion() {
+    if (!quizStarted) return;
+    
+    const quizContainer = document.querySelector('.quiz-container');
+    if (currentQuestion >= questions.length) {
+        showScore();
+        return;
+    }
+
+    const q = questions[currentQuestion];
+    quizContainer.innerHTML = `
+        <div class="quiz-question">${q.question}</div>
+        <div class="quiz-options">
+            ${q.options.map((option, index) => `
+                <button class="option-button ${answers[currentQuestion] === index ? 'selected' : ''}" 
+                        onclick="selectOption(${index})">
+                    ${option}
+                </button>
+            `).join('')}
+        </div>
+    `;
+
+    const backButton = document.querySelector('.main-back-button');
+    const backText = document.querySelector('.main-back-text');
+    const nextButton = document.querySelector('.main-next-button');
+    const nextText = document.querySelector('.main-next-text');
+    const submitButton = document.querySelector('.submit-plank');
+    const submitText = document.querySelector('.submit-text');
+    const backPlank = document.querySelector('.back-plank');
+    const backPlankText = document.querySelector('.back-text');
+    const retryPlank = document.querySelector('.retry-plank');
+    const retryText = document.querySelector('.retry-text');
+    const homePlank = document.querySelector('.home-plank');
+    const homeText = document.querySelector('.home-text');
+
+    if (currentQuestion === 0) {
+        backButton.style.display = 'none';
+        backText.style.display = 'none';
+        nextButton.style.display = 'block';
+        nextText.style.display = 'block';
+        submitButton.style.display = 'none';
+        submitText.style.display = 'none';
+        backPlank.style.display = 'none';
+        backPlankText.style.display = 'none';
+        retryPlank.style.display = 'none';
+        retryText.style.display = 'none';
+        homePlank.style.display = 'none';
+        homeText.style.display = 'none';
+    } else if (currentQuestion === questions.length - 1) {
+        backButton.style.display = 'none';
+        backText.style.display = 'none';
+        nextButton.style.display = 'none';
+        nextText.style.display = 'none';
+        submitButton.style.display = 'block';
+        submitText.style.display = 'block';
+        backPlank.style.display = 'block';
+        backPlankText.style.display = 'block';
+        retryPlank.style.display = 'none';
+        retryText.style.display = 'none';
+        homePlank.style.display = 'none';
+        homeText.style.display = 'none';
+    } else {
+        backButton.style.display = 'block';
+        backText.style.display = 'block';
+        nextButton.style.display = 'block';
+        nextText.style.display = 'block';
+        submitButton.style.display = 'none';
+        submitText.style.display = 'none';
+        backPlank.style.display = 'none';
+        backPlankText.style.display = 'none';
+        retryPlank.style.display = 'none';
+        retryText.style.display = 'none';
+        homePlank.style.display = 'none';
+        homeText.style.display = 'none';
+    }
+}
+
+function selectOption(index) {
+    playClickSound();
+    answers[currentQuestion] = index;
+    document.querySelectorAll('.option-button').forEach((btn, i) => {
+        btn.classList.toggle('selected', i === index);
+    });
+}
+
+function nextQuestion() {
+    playClickSound();
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        displayQuestion();
+    }
+}
+
+function previousQuestion() {
+    playClickSound();
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        displayQuestion();
+    }
+}
+
+function showScore() {
+    playClickSound();
+    score = answers.reduce((acc, answer, index) => 
+        answer === questions[index].correct ? acc + 1 : acc, 0);
+    
+    let message;
+    if (score === 5) {
+        message = "Perfect Score! You got 5/5 correct!";
+    } else if (score === 4) {
+        message = "Excellent! You got 4/5 correct!";
+    } else if (score === 3) {
+        message = "Good job! You got 3/5 correct!";
+    } else if (score === 2) {
+        message = "Not bad! You got 2/5 correct!";
+    } else if (score === 1) {
+        message = "Good try! You got 1/5 correct!";
+    } else {
+        message = "Try again! You got 0/5 correct!";
+    }
+    
+    const quizContainer = document.querySelector('.quiz-container');
+    quizContainer.innerHTML = `
+        <div class="score-display">
+            ${message}
+        </div>
+        <div class="star-rating">
+            ${Array(5).fill(0).map((_, index) => `
+                <img src="${index < score ? 'full star.png' : 'empty star.png'}" 
+                     class="star" 
+                     alt="${index < score ? 'Full Star' : 'Empty Star'}"
+                     width="80">
+            `).join('')}
+        </div>
+    `;
+
+    const retryPlank = document.querySelector('.retry-plank');
+    const retryText = document.querySelector('.retry-text');
+    const homePlank = document.querySelector('.home-plank');
+    const homeText = document.querySelector('.home-text');
+
+    retryPlank.style.display = 'block';
+    retryText.style.display = 'block';
+    retryText.innerHTML = 'RETRY';
+    retryPlank.onclick = function() {
+        playClickSound();
+        currentQuestion = 0;
+        answers = new Array(questions.length).fill(-1);
+        score = 0;
+        quizStarted = false;
+        
+        quizContainer.style.display = 'none';
+        retryPlank.style.display = 'none';
+        retryText.style.display = 'none';
+        homePlank.style.display = 'none';
+        homeText.style.display = 'none';
+        
+        document.querySelector('.start-container').style.display = 'block';
+    };
+
+    homePlank.style.display = 'block';
+    homeText.style.display = 'block';
+    homeText.innerHTML = 'BACK TO<br>LEARNING';
+    homePlank.onclick = function() {
+        playSwishSound();
+        setTimeout(() => {
+            window.location.href = 'farm-learning.html';
+        }, 300);
+    };
+
+    document.querySelector('.main-back-button').style.display = 'none';
+    document.querySelector('.main-back-text').style.display = 'none';
+    document.querySelector('.main-next-button').style.display = 'none';
+    document.querySelector('.main-next-text').style.display = 'none';
+    document.querySelector('.submit-plank').style.display = 'none';
+    document.querySelector('.submit-text').style.display = 'none';
+    document.querySelector('.back-plank').style.display = 'none';
+    document.querySelector('.back-text').style.display = 'none';
+}
+
+// Initialize quiz
+document.querySelector('.quiz-container').style.display = 'none';
+document.querySelector('.main-back-button').style.display = 'none';
+document.querySelector('.main-back-text').style.display = 'none';
+document.querySelector('.main-next-button').style.display = 'none';
+document.querySelector('.main-next-text').style.display = 'none';
+document.querySelector('.submit-plank').style.display = 'none';
+document.querySelector('.submit-text').style.display = 'none';
+document.querySelector('.back-plank').style.display = 'none';
+document.querySelector('.back-text').style.display = 'none';
+document.querySelector('.retry-plank').style.display = 'none';
+document.querySelector('.retry-text').style.display = 'none';
+document.querySelector('.home-plank').style.display = 'none';
+document.querySelector('.home-text').style.display = 'none';
+document.querySelector('.start-container').style.display = 'none';
+
+
+
+    </script>
+</body>
+</html>

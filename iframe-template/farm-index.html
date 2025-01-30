@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    <title>Farm Educational Game</title>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://pplx-res.cloudinary.com/image/upload/v1737598485/user_uploads/jvunjmGzUjGbHTn/sunset-cartoon-background-with-landscape-area-trees-sun-burst-clouds-sky-free-vector.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Comic Neue', sans-serif;
+    font-weight: 700;
+            overflow: hidden;
+        }
+        #container {
+            width: 960px;
+            height: 540px;
+            background-image: url('https://pplx-res.cloudinary.com/image/upload/v1737598112/user_uploads/TEvPViVquDRlmvj/green-farm-animation-2d-cartoon-600nw-2439388695-copy.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 4px solid #8B4513;
+            box-shadow: 0 0 10px #8B4513, 0 0 20px #8B4513;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        #typing-text {
+            color: #8B4513;
+            font-size: 40px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+        }
+        .farmer {
+            position: absolute;
+            bottom: 40px;
+            right: 330px;
+            width: 245px;
+            height: auto;
+            z-index: 3;
+        }
+        .speech-bubble {
+    position: absolute;
+    bottom: 225px;
+    right: 315px;
+    width: 300px;
+    height: auto;
+    z-index: 3;
+    transform: rotate(15deg);
+}
+.bubble-text {
+    position: absolute;
+    bottom: 365px;    /* Adjust to align with bubble center */
+    right: 365px;     /* Adjust to align with bubble center */
+    width: 200px;     /* Adjust width to fit inside bubble */
+    text-align: center;
+    color: #202020; 
+    font-weight: bold;
+    font-size: 20px;  /* Adjust size as needed */
+    z-index: 4;       /* Above the bubble */
+}
+.bubble-text.position-1 {
+    bottom: 365px;   
+}
+.bubble-text.position-2 {
+    bottom: 365px;   
+}
+.bubble-text.position-3 {
+    bottom: 395px;    
+}
+.bubble-text.position-4 {
+    bottom: 370px;
+}
+.play-button {
+    position: absolute;
+    bottom: 310px;    /* Adjust to position at bottom right of speech bubble */
+    right: 360px;     /* Adjust to position at bottom right of speech bubble */
+    width: 60px;      /* Adjust size as needed */
+    height: auto;
+    z-index: 4;       /* Above the speech bubble */
+    cursor: pointer;  /* Shows pointer on hover */
+}
+.back-button {
+    position: absolute;
+    bottom: 310px;    
+    right: 520px;     /* Position on left side of bubble */
+    width: 60px;      
+    height: auto;
+    z-index: 4;       
+    cursor: pointer;  
+    display: none;    /* Hidden by default */
+}
+.plank-left {
+    position: absolute;
+    bottom: 300px;    
+    right: 475px;     /* Position on left side */
+    width: 105px;     /* Wider for the plank image */
+    height: auto;
+    z-index: 4;       
+    cursor: pointer;  
+    display: none;    /* Hidden by default */
+}
+
+.plank-right {
+    position: absolute;
+    bottom: 300px;    
+    right: 360px;     /* Position on right side */
+    width: 105px;     /* Wider for the plank image */
+    height: auto;
+    z-index: 4;       
+    cursor: pointer;  
+    display: none;    /* Hidden by default */
+}
+.plank-text-left {
+    position: absolute;
+    bottom: 345px;    
+    right: 495px;     
+    width: 65px;     
+    text-align: center;
+    pointer-events: none;
+    color: #202020; 
+    font-weight: bold;
+    font-size: 16px;  
+    z-index: 5;       
+    display: none;    
+}
+
+.plank-text-right {
+    position: absolute;
+    bottom: 335px;    
+    right: 380px;     
+    width: 65px;     
+    text-align: center;
+    pointer-events: none;
+    color: #202020; 
+    font-weight: bold;
+    font-size: 16px;  
+    z-index: 5;       
+    display: none;    
+}
+.back-button-final {
+    position: absolute;
+    bottom: 310px;    
+    right: 520px;     
+    width: 60px;      
+    height: auto;
+    z-index: 4;       
+    cursor: pointer;  
+    display: none;    
+}
+.final-button {
+    position: absolute;
+    bottom: 310px;    
+    right: 360px;     
+    width: 60px;      
+    height: auto;
+    z-index: 4;       
+    cursor: pointer;  
+    display: none;    
+}
+/* Forward/Back button hover effect */
+.play-button:hover, .back-button:hover, .back-button-final:hover, .final-button:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
+    transition: all 0.3s ease;
+}
+.play-button, .back-button, .back-button-final, .final-button {
+    position: absolute;
+    width: 60px;
+    height: auto;
+    z-index: 4;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.plank-left, .plank-right {
+    position: absolute;
+    width: 105px;
+    height: auto;
+    z-index: 4;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+/* Wooden plank button hover effect */
+.plank-left:hover, .plank-right:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+    transition: all 0.3s ease;
+}
+/* Click effects for all buttons */
+.play-button:active, 
+.back-button:active, 
+.back-button-final:active, 
+.final-button:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
+.plank-left:active, 
+.plank-right:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <audio id="clickSound" preload="auto">
+            <source src="pop.mp3" type="audio/mpeg">
+        </audio>        
+        <audio id="swishSound" preload="auto">
+            <source src="swish.mp3" type="audio/mpeg">
+        </audio>
+        <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+        <img src="speech bubble.png" alt="Speech Bubble" class="speech-bubble">
+        <img src="go forward.png" alt="Play Button" class="play-button" onclick="playClickSound(); nextText()">
+        <img src="go back.png" alt="Back Button" class="back-button" onclick="playClickSound(); previousText()">
+        <div class="bubble-text position-1">HI! I'M SALLY!</div>  
+        <img src="button answers.png" alt="Left Plank" class="plank-left" onclick="playClickSound(); nextText()">
+        <img src="button answers.png" alt="Right Plank" class="plank-right" onclick="playClickSound(); goToFirstText()">
+        <div class="plank-text-left">YES!</div>
+        <div class="plank-text-right">GO BACK!</div>   
+        <img src="go back.png" alt="Back Button Final" class="back-button-final" onclick="playClickSound(); previousText()">
+        <img src="go forward.png" alt="Final Button" class="final-button" onclick="playClickSound(); goToNextPage()">
+        <img src="cowgirl 2.0.png" alt="Farmer" class="farmer">        
+    </div>
+
+    <script>
+const texts = [
+    "HI! I'M SALLY THE COWGIRL. WELCOME TO MY FARM!",
+    "I'M HERE TO TEACH YOU ALL ABOUT GENERATIVE AI.",
+    "ARE YOU READY?",
+    "GREAT! LET'S GET STARTED!"
+];
+let currentTextIndex = 0;
+let dialogueIndex = 0;
+
+function playClickSound() {
+    const audio = document.getElementById('clickSound');
+    audio.currentTime = 0;
+    audio.load();
+    audio.play().catch(function(error) {
+        console.log("Audio play failed:", error);
+    });
+}
+
+function typeDialogue(text, element) {
+    if (dialogueIndex < text.length) {
+        element.innerHTML += text.charAt(dialogueIndex);
+        dialogueIndex++;
+        setTimeout(() => typeDialogue(text, element), 50);
+    }
+}
+
+function nextText() {
+    const audio = document.getElementById('clickSound');
+    if (audio.readyState >= 2) {
+        playClickSound();
+    }
+    currentTextIndex++;
+    if (currentTextIndex < texts.length) {
+        const bubbleText = document.querySelector('.bubble-text');
+        bubbleText.innerHTML = '';
+        dialogueIndex = 0;
+        
+        bubbleText.classList.remove('position-1', 'position-2', 'position-3', 'position-4');
+        bubbleText.classList.add(`position-${currentTextIndex + 1}`);
+        
+        typeDialogue(texts[currentTextIndex], bubbleText);
+        
+        if (currentTextIndex === 2) {
+            document.querySelector('.back-button').style.display = 'none';
+            document.querySelector('.play-button').style.display = 'none';
+            document.querySelector('.plank-left').style.display = 'block';
+            document.querySelector('.plank-right').style.display = 'block';
+            document.querySelector('.plank-text-left').style.display = 'block';
+            document.querySelector('.plank-text-right').style.display = 'block';
+            document.querySelector('.final-button').style.display = 'none';
+            document.querySelector('.back-button-final').style.display = 'none';
+        } else if (currentTextIndex === 1) {
+            document.querySelector('.back-button').style.display = 'block';
+            document.querySelector('.play-button').style.display = 'block';
+            document.querySelector('.plank-left').style.display = 'none';
+            document.querySelector('.plank-right').style.display = 'none';
+            document.querySelector('.plank-text-left').style.display = 'none';
+            document.querySelector('.plank-text-right').style.display = 'none';
+            document.querySelector('.final-button').style.display = 'none';
+            document.querySelector('.back-button-final').style.display = 'none';
+        } else if (currentTextIndex === 3) {
+            document.querySelector('.plank-left').style.display = 'none';
+            document.querySelector('.plank-right').style.display = 'none';
+            document.querySelector('.plank-text-left').style.display = 'none';
+            document.querySelector('.plank-text-right').style.display = 'none';
+            document.querySelector('.final-button').style.display = 'block';
+            document.querySelector('.back-button-final').style.display = 'block';
+        }
+    }
+}
+
+function previousText() {
+    const audio = document.getElementById('clickSound');
+    if (audio.readyState >= 2) {
+        playClickSound();
+    }
+    currentTextIndex--;
+    const bubbleText = document.querySelector('.bubble-text');
+    bubbleText.innerHTML = '';
+    dialogueIndex = 0;
+    
+    bubbleText.classList.remove('position-1', 'position-2', 'position-3', 'position-4');
+    bubbleText.classList.add(`position-${currentTextIndex + 1}`);
+    
+    typeDialogue(texts[currentTextIndex], bubbleText);
+    
+    if (currentTextIndex === 2) {
+        document.querySelector('.plank-left').style.display = 'block';
+        document.querySelector('.plank-right').style.display = 'block';
+        document.querySelector('.plank-text-left').style.display = 'block';
+        document.querySelector('.plank-text-right').style.display = 'block';
+        document.querySelector('.back-button').style.display = 'none';
+        document.querySelector('.play-button').style.display = 'none';
+        document.querySelector('.final-button').style.display = 'none';
+        document.querySelector('.back-button-final').style.display = 'none';
+    } else if (currentTextIndex === 1) {
+        document.querySelector('.back-button').style.display = 'block';
+        document.querySelector('.play-button').style.display = 'block';
+        document.querySelector('.plank-left').style.display = 'none';
+        document.querySelector('.plank-right').style.display = 'none';
+        document.querySelector('.plank-text-left').style.display = 'none';
+        document.querySelector('.plank-text-right').style.display = 'none';
+        document.querySelector('.final-button').style.display = 'none';
+        document.querySelector('.back-button-final').style.display = 'none';
+    } else if (currentTextIndex === 0) {
+        document.querySelector('.back-button').style.display = 'none';
+    }
+}
+
+function goToFirstText() {
+    const audio = document.getElementById('clickSound');
+    if (audio.readyState >= 2) {
+        playClickSound();
+    }
+    currentTextIndex = 0;
+    const bubbleText = document.querySelector('.bubble-text');
+    bubbleText.innerHTML = '';
+    dialogueIndex = 0;
+    
+    bubbleText.classList.remove('position-1', 'position-2', 'position-3', 'position-4');
+    bubbleText.classList.add('position-1');
+    
+    typeDialogue(texts[currentTextIndex], bubbleText);
+    
+    document.querySelector('.back-button').style.display = 'none';
+    document.querySelector('.play-button').style.display = 'block';
+    document.querySelector('.plank-left').style.display = 'none';
+    document.querySelector('.plank-right').style.display = 'none';
+    document.querySelector('.plank-text-left').style.display = 'none';
+    document.querySelector('.plank-text-right').style.display = 'none';
+    document.querySelector('.final-button').style.display = 'none';
+    document.querySelector('.back-button-final').style.display = 'none';
+}
+
+function goToNextPage() {
+    const audio = document.getElementById('swishSound');
+    audio.currentTime = 0;
+    audio.load();
+    audio.play().then(() => {
+        setTimeout(() => {
+            window.location.href = 'farm-learning.html';
+        }, 300);
+    }).catch(function(error) {
+        console.log("Swish sound failed:", error);
+        window.location.href = 'farm-learning.html';
+    });
+}
+
+
+
+const text = "Welcome to the Farm Educational Game!";
+const typingText = document.getElementById('typing-text');
+let index = 0;
+
+function typeWriter() {
+    if (index < text.length) {
+        typingText.innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeWriter, 50);
+    }
+}
+
+// Initialize first dialogue
+const bubbleText = document.querySelector('.bubble-text');
+bubbleText.innerHTML = '';
+typeDialogue(texts[0], bubbleText);
+typeWriter();
+
+
+
+    </script>
+</body>
+</html>
